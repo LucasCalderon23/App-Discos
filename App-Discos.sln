@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36705.20
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App-Discos", "App-Discos\App-Discos.csproj", "{001725FA-A064-4B6B-97E2-6C831600FF8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{45830257-E4D3-4B74-8DE8-59B9E76A46DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio", "Negocio\Negocio.csproj", "{5ED51265-BF82-4A71-A112-314712963848}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{001725FA-A064-4B6B-97E2-6C831600FF8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{001725FA-A064-4B6B-97E2-6C831600FF8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{001725FA-A064-4B6B-97E2-6C831600FF8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{001725FA-A064-4B6B-97E2-6C831600FF8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45830257-E4D3-4B74-8DE8-59B9E76A46DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45830257-E4D3-4B74-8DE8-59B9E76A46DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45830257-E4D3-4B74-8DE8-59B9E76A46DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45830257-E4D3-4B74-8DE8-59B9E76A46DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ED51265-BF82-4A71-A112-314712963848}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ED51265-BF82-4A71-A112-314712963848}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ED51265-BF82-4A71-A112-314712963848}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ED51265-BF82-4A71-A112-314712963848}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {010CCB4C-EABE-482D-AA06-B1C872982707}
+	EndGlobalSection
+EndGlobal
