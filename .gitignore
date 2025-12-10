@@ -3,3 +3,7 @@ bin/
 obj/
 *.user
 *.cache
+.vs/
+bin/
+obj/
+*.user
