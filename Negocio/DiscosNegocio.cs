@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Dominio;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using Dominio;
 
 namespace Negocio
 {
@@ -22,7 +23,7 @@ namespace Negocio
             {
                 connection.ConnectionString = "server=LUCAS\\SQLEXPRESS; database=DISCOS_DB; integrated security=true"; //atributo del sqlconnection donde indico a donde me voy a conectar
                 comando.CommandType = System.Data.CommandType.Text;
-                comando.CommandText = "select d.Id,Titulo, FechaLanzamiento, CantidadCanciones, UrlImagenTapa,e.Descripcion Genero, t.Descripcion Edicion, d.IdEstilo, d.IdTipoEdicion from DISCOS d, ESTILOS e, TIPOSEDICION t where d.IdEstilo = e.Id and d.IdTipoEdicion = t.Id";
+                comando.CommandText = "select d.Id,Titulo, FechaLanzamiento, CantidadCanciones, UrlImagenTapa,e.Descripcion Genero, t.Descripcion Edicion, d.IdEstilo, d.IdTipoEdicion from DISCOS d, ESTILOS e, TIPOSEDICION t where d.IdEstilo = e.Id and d.IdTipoEdicion = t.Id and d.Activo = 1";
                 comando.Connection = connection;
 
                 connection.Open();
@@ -56,7 +57,7 @@ namespace Negocio
             }
         }
 
-        public void Agree(Discos nuevo)
+        public void Add(Discos nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
             try
@@ -114,6 +115,104 @@ namespace Negocio
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+        }
+
+        public void deleteLogico(int id)
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos();
+                datos.setQuery("update DISCOS set Activo = 0 where Id = @Id");
+                datos.setParameters("@Id", id);
+                datos.exAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public List<Discos> Filtrar(string campo, string criterio, string filtro)
+        {
+            List<Discos> lista = new List<Discos>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string consulta = "select d.Id,Titulo, FechaLanzamiento, CantidadCanciones, UrlImagenTapa,e.Descripcion Genero, t.Descripcion Edicion, d.IdEstilo, d.IdTipoEdicion from DISCOS d, ESTILOS e, TIPOSEDICION t where d.IdEstilo = e.Id and d.IdTipoEdicion = t.Id and d.Activo = 1 and";
+                if(campo == "Id")
+                {
+                    switch (criterio)
+                    {
+                        case "Mayor a":
+                            consulta += " d.Id > " + filtro;
+                            break;
+                        case "Menor a":
+                            consulta += " d.Id < " + filtro;
+                            break;
+                        default:
+                            consulta += " d.Id = " + filtro;
+                            break;
+                    }
+                }else if (campo == "Titulo")
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += " Titulo like '" + filtro +"%' ";
+                            break;
+                        case "Termina con":
+                            consulta += " Titulo like '%" + filtro + "' ";
+                            break;
+                        default:
+                            consulta += " Titulo like '%" + filtro + "%' ";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += " e.Descripcion like '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += " e.Descripcion like '%" + filtro + "' ";
+                            break;
+                        default:
+                            consulta += " e.Descripcion like '%" + filtro + "%' ";
+                            break;
+                    }
+                }
+                
+                datos.setQuery(consulta);
+                datos.exRead();
+                while (datos.Reader.Read())// Este bucle se ejecuta siempre y cuando tenga infromacion para leer
+                {
+                    Discos aux = new Discos();// creo una instancia de un Disco y abajo le voy cargando la infromacion correspondiente de la DB a ese disco vuelta por vuelta
+                    aux.Id = (int)datos.Reader["Id"];
+                    aux.Titulo = (string)datos.Reader["Titulo"];
+                    aux.Fecha_Lanzamiento = (DateTime)datos.Reader["FechaLanzamiento"];
+                    aux.Cant_Canciones = (int)datos.Reader["CantidadCanciones"];
+                    aux.UrlImagenTapa = (string)datos.Reader["UrlImagenTapa"];
+                    // Genero una instancia de estilos para poder mostrar la descripcion que contiene en la DB
+                    aux.Genero = new Estilos();
+                    aux.Genero.Id = (int)datos.Reader["IdEstilo"];
+                    aux.Genero.Descripcion = (string)datos.Reader["Genero"];
+                    aux.Edicion = new TipoEdicion();
+                    aux.Edicion.Id = (int)datos.Reader["IdTipoEdicion"];
+                    aux.Edicion.Descripcion = (string)datos.Reader["Edicion"];
+
+                    lista.Add(aux);// Agrego el disco armado a la lista creada en la linea 14...
+                }
+
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

@@ -49,7 +49,7 @@ namespace App_Discos
 
                 if(disco.Id == 0)
                 {
-                    negocio.Agree(disco);
+                    negocio.Add(disco);
                     MessageBox.Show("Disco agregado de manera exitosa...");
                 }
                 else
